@@ -1,0 +1,25 @@
+# Security & Hardening Kit — configuration
+# Edit these values for your environment; do not hardcode paths in the script itself.
+
+general:
+  hostname_check: true
+  log_dir: "./logs"
+
+ssh:
+  check_root_login: true
+  check_password_auth: true
+  expected_port: 22
+
+firewall:
+  backend: "ufw"          # options: ufw, firewalld, nftables
+  require_default_deny: true
+
+fail2ban:
+  check_enabled: true
+  min_ban_time_seconds: 600
+
+cis_checks:
+  - "ensure_no_empty_passwords"
+  - "ensure_root_login_disabled"
+  - "ensure_firewall_active"
+  - "ensure_fail2ban_active"
