@@ -6,6 +6,8 @@ Production Kits for Linux — Project N
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
+📄 **[View full documentation](https://elixirman.github.io/production-kit-security-hardening/)**
+
 A reusable, configurable Bash tool for auditing baseline Linux security posture — SSH hardening, firewall status, and fail2ban — designed to run unattended, in CI, or ad hoc against any server.
 
 ## Overview
