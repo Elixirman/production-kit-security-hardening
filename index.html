@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security & Hardening Kit | Production Kits for Linux</title>
+<style>
+  :root {
+    --bg: #0B0E11;
+    --panel: #12161C;
+    --panel-border: #1F2530;
+    --text: #E6E8EB;
+    --muted: #8B94A0;
+    --pass: #3FB950;
+    --fail: #F85149;
+    --accent: #D4A72C;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.65;
+  }
+  h1, h2, h3, .mono, code, pre, .badge, nav a {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  }
+  a { color: var(--accent); }
+  .layout {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  nav {
+    width: 220px;
+    flex-shrink: 0;
+    padding: 48px 16px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid var(--panel-border);
+  }
+  nav .kit-tag {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  nav ul { list-style: none; padding: 0; margin: 0; }
+  nav li { margin-bottom: 10px; }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+  }
+  nav a:hover { color: var(--accent); }
+  main {
+    flex: 1;
+    padding: 48px 40px 96px;
+    max-width: 760px;
+  }
+  .hero-term {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .hero-term .bar {
+    display: flex;
+    gap: 6px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .hero-term .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.r { background: #F85149; }
+  .dot.y { background: #D4A72C; }
+  .dot.g { background: #3FB950; }
+  .hero-term pre {
+    margin: 0;
+    padding: 20px;
+    font-size: 13px;
+    color: var(--muted);
+    overflow-x: auto;
+  }
+  .hero-term .pass { color: var(--pass); }
+  .hero-term .fail { color: var(--fail); }
+  .hero-term .prompt { color: var(--accent); }
+  h1 {
+    font-size: 28px;
+    margin: 0 0 6px;
+    font-weight: 600;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    margin: 0 0 24px;
+    font-family: 'Inter', sans-serif;
+  }
+  .badges { display: flex; gap: 8px; margin-bottom: 36px; flex-wrap: wrap; }
+  .badge {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--panel-border);
+    color: var(--muted);
+  }
+  h2 {
+    font-size: 18px;
+    margin: 48px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--panel-border);
+  }
+  h3 {
+    font-size: 14px;
+    color: var(--accent);
+    margin: 24px 0 8px;
+  }
+  p { font-family: 'Inter', sans-serif; }
+  code {
+    background: var(--panel);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    border: 1px solid var(--panel-border);
+  }
+  pre {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 13px;
+  }
+  pre code { background: none; border: none; padding: 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--panel-border);
+  }
+  th { color: var(--muted); font-weight: 500; }
+  ul.feature-list { padding-left: 20px; font-family: 'Inter', sans-serif; }
+  ul.feature-list li { margin-bottom: 6px; }
+  .diagram {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .skill-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .skill-card h4 {
+    margin: 0 0 4px;
+    font-size: 13px;
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .skill-card p { margin: 0; font-size: 12.5px; color: var(--muted); }
+  .continuity {
+    margin-top: 56px;
+    padding: 20px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+  }
+  .continuity .label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  footer {
+    text-align: center;
+    padding: 32px;
+    color: var(--muted);
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+  }
+  @media (max-width: 800px) {
+    nav { display: none; }
+    main { padding: 32px 20px; max-width: 100%; }
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav>
+    <div class="kit-tag">PRODUCTION KITS &mdash; 01</div>
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#requirements">Requirements</a></li>
+      <li><a href="#installation">Installation</a></li>
+      <li><a href="#configuration">Configuration</a></li>
+      <li><a href="#usage">Usage</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#output">Output & Logging</a></li>
+      <li><a href="#safety">Safety & Failure Handling</a></li>
+      <li><a href="#skills">Skills Matrix</a></li>
+      <li><a href="#limitations">Limitations</a></li>
+      <li><a href="#next">Next Kit</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="hero-term">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre><span class="prompt">$</span> ./scripts/security-audit.sh
+Security &amp; Hardening Kit v0.1.0
+Project root: /opt/production-kit-security-hardening
+<span class="fail">[FAIL]</span> SSH root login check &mdash; PermitRootLogin is set to yes
+<span class="pass">[PASS]</span> Firewall active check &mdash; ufw is active
+<span class="fail">[FAIL]</span> fail2ban active check &mdash; fail2ban is installed but not active
+
+<span class="prompt">$</span> echo $?
+1</pre>
+    </div>
+
+    <h1>Security &amp; Hardening Kit</h1>
+    <p class="subtitle">A configurable Bash tool for auditing baseline Linux security posture &mdash; SSH, firewall, and fail2ban &mdash; built to run unattended, in CI, or ad hoc against any host.</p>
+    <div class="badges">
+      <span class="badge">bash 4+</span>
+      <span class="badge">MIT license</span>
+      <span class="badge">v0.1.0</span>
+      <span class="badge">tested: debian/ubuntu</span>
+    </div>
+
+    <h2 id="overview">Overview</h2>
+    <p>Most security audits are one-off manual checks run before a compliance deadline and then forgotten. This kit is built to be a standing tool instead: config-driven per host, safe to re-run indefinitely because it only reads system state and never modifies it, and scriptable through a machine-readable JSON mode so results can feed a monitoring pipeline or a CI gate rather than requiring someone to read terminal output by hand.</p>
+
+    <h2 id="features">Features</h2>
+    <ul class="feature-list">
+      <li>SSH root login check (<code>PermitRootLogin</code> in <code>sshd_config</code>)</li>
+      <li>Firewall active check &mdash; supports <code>ufw</code>, <code>firewalld</code>, or <code>nftables</code> as the configured backend</li>
+      <li>fail2ban active check via <code>systemctl</code></li>
+      <li>Dual output modes: human-readable by default, <code>--json</code> for structured output</li>
+      <li>Exit code reflects overall result &mdash; <code>0</code> if every check passes, <code>1</code> if any fails</li>
+      <li>Fully config-driven through YAML &mdash; no hardcoded paths or values in the script itself</li>
+    </ul>
+
+    <h2 id="requirements">Requirements &amp; Compatibility</h2>
+    <table>
+      <tr><th>Requirement</th><th>Notes</th></tr>
+      <tr><td>Bash</td><td>4.0 or later</td></tr>
+      <tr><td><code>yq</code></td><td>v4+, used for YAML config parsing</td></tr>
+      <tr><td>OS</td><td>Tested on Debian/Ubuntu; should run on any systemd-based distro</td></tr>
+      <tr><td>Permissions</td><td>Root not required to run; some checks may need elevated read access depending on file ownership on the target host</td></tr>
+    </table>
+
+    <h2 id="installation">Installation</h2>
+    <pre><code>git clone https://github.com/Elixirman/production-kit-security-hardening.git
+cd production-kit-security-hardening
+chmod +x scripts/security-audit.sh</code></pre>
+
+    <h2 id="configuration">Configuration</h2>
+    <p>All tunable behavior lives in <code>config/settings.yaml</code> &mdash; nothing is hardcoded in the script itself, so the same script runs unmodified across different hosts and teams.</p>
+    <pre><code>ssh:
+  check_root_login: true
+
+firewall:
+  backend: "ufw"   # options: ufw, firewalld, nftables
+
+fail2ban:
+  check_enabled: true</code></pre>
+    <p>Set any <code>check_*</code> flag to <code>false</code> to skip that check entirely on a given host.</p>
+
+    <h2 id="usage">Usage</h2>
+    <pre><code># Human-readable output, for interactive use
+./scripts/security-audit.sh
+
+# Structured JSON, for piping into jq or a monitoring pipeline
+./scripts/security-audit.sh --json | jq .
+
+# Use the exit code as a CI gate
+./scripts/security-audit.sh --json > results.json || echo "Security check failed"</code></pre>
+
+    <h2 id="architecture">Architecture</h2>
+    <div class="diagram">
+ config/settings.yaml
+        │
+        ▼
+ ┌────────────────┐        each check reads its own
+ │  arg parsing    │        config flag, runs independently,
+ │  (--json/--dry) │        and appends one result object
+ └───────┬────────┘        to a shared RESULTS array
+         ▼
+ ┌─────────────────────────────────────────────┐
+ │  check_ssh_root_login()                      │
+ │  check_firewall_active()                     │
+ │  check_fail2ban_active()                      │
+ └───────┬───────────────────────────────────────┘
+         ▼
+ OVERALL_STATUS = 1 if any check FAILs, else 0
+         │
+   ┌─────┴─────┐
+   ▼           ▼
+human lines   JSON array (--json)
+   │           │
+   └─────┬─────┘
+         ▼
+     exit $OVERALL_STATUS
+    </div>
+    <p>Each check function is self-contained and independently skippable via config. Nothing in the checks depends on the invoking shell's environment &mdash; the same discipline as deriving <code>SCRIPT_DIR</code> from <code>$0</code> rather than trusting <code>$HOME</code>, so the tool behaves identically whether run interactively, from cron, or inside a CI runner.</p>
+
+    <h2 id="output">Output &amp; Logging</h2>
+    <p>Human mode prints one line per check:</p>
+    <pre><code>[FAIL] SSH root login check — PermitRootLogin is set to yes</code></pre>
+    <p>JSON mode prints a single array, safe to pipe directly into <code>jq</code>:</p>
+    <pre><code>[{"check":"ssh_root_login","result":"FAIL","detail":"PermitRootLogin is set to yes"}]</code></pre>
+    <table>
+      <tr><th>Exit code</th><th>Meaning</th></tr>
+      <tr><td>0</td><td>All enabled checks passed</td></tr>
+      <tr><td>1</td><td>At least one enabled check failed</td></tr>
+    </table>
+
+    <h2 id="safety">Safety &amp; Failure Handling</h2>
+    <p>The script is read-only against the system &mdash; it audits and reports, it never modifies system state, so it is safe to re-run at any frequency. A missing config file, a missing <code>sshd_config</code>, or an absent firewall binary all resolve to a reported <code>FAIL</code> with a specific detail message rather than an unhandled crash, because <code>set -euo pipefail</code> is paired with explicit existence checks before every risky read.</p>
+
+    <h2 id="skills">Skills Matrix</h2>
+    <div class="skills-grid">
+      <div class="skill-card"><h4>Config-driven design</h4><p>Behavior controlled entirely through external YAML, not code edits</p></div>
+      <div class="skill-card"><h4>Dual-mode CLI output</h4><p>Human-readable and machine-parseable JSON from one code path</p></div>
+      <div class="skill-card"><h4>Idempotent auditing</h4><p>Read-only checks safe to run at any frequency, in any environment</p></div>
+      <div class="skill-card"><h4>CI-friendly exit codes</h4><p>Exit status usable directly as a pipeline gate</p></div>
+      <div class="skill-card"><h4>Defensive Bash</h4><p><code>set -euo pipefail</code> plus explicit guards against missing files/binaries</p></div>
+      <div class="skill-card"><h4>Test coverage</h4><p>bats-core suite verifying CLI behavior and output shape</p></div>
+    </div>
+
+    <h2 id="limitations">Known Limitations &amp; Extension Ideas</h2>
+    <ul class="feature-list">
+      <li>Firewall check supports one configured backend per run, not auto-detection across all three</li>
+      <li>Audits and reports only &mdash; no remediation/auto-fix mode (a deliberate scope boundary, not an oversight)</li>
+      <li>Extension idea: add a <code>--remediate</code> flag behind an explicit confirmation prompt</li>
+      <li>Extension idea: add a webhook/alert notifier for CI failures</li>
+    </ul>
+
+    <div class="continuity" id="next">
+      <div class="label">Production Kits &mdash; next in the series</div>
+      <strong>Storage &amp; File Systems Kit</strong>
+      <p style="color:var(--muted); font-size:13px; margin-top:8px;">Automated SMART disk health analysis and stale log/temp cleanup, following the same config-driven, dual-output template established here.</p>
+    </div>
+  </main>
+</div>
+<footer>Production Kits for Linux &mdash; Captain</footer>
+</body>
+</html>
